@@ -1,0 +1,188 @@
+loadstring(game:HttpGet("https://pastebin.com/raw/Q2nnXSfH"))()
+wait((2))
+
+local TextChatService = game:GetService("TextChatService")
+local channel = TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral")
+channel:SendAsync("-loadrift")
+wait((5))
+channel:SendAsync("Loaded Ghxst Rift! Keybind- C for Rift")
+channel:SendAsync("Naoya_Dev")
+
+local player = game:GetService("Players").LocalPlayer
+local TextChatService = game:GetService("TextChatService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local Lighting = game:GetService("Lighting")
+local targetParent = game:GetService("CoreGui") or player:WaitForChild("PlayerGui")
+
+if targetParent:FindFirstChild("GhxstRift") then targetParent.GhxstRift:Destroy() end
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "GhxstRift"
+ScreenGui.Parent = targetParent
+ScreenGui.Enabled = true
+local blur = Lighting:FindFirstChild("GhxstBlur")
+if not blur then
+	blur = Instance.new("BlurEffect")
+	blur.Name = "GhxstBlur"
+	blur.Size = 0
+	blur.Parent = Lighting
+end
+
+local function blurIn()
+	blur.Size = 1
+	local tween = TweenService:Create(blur, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Size = 30})
+	tween:Play()
+end
+
+local function blurOut()
+	local tween = TweenService:Create(blur, TweenInfo.new(1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Size = 0})
+	tween:Play()
+end
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.C then
+        ScreenGui.Enabled = not ScreenGui.Enabled
+    end
+end)
+
+ScreenGui:GetPropertyChangedSignal("Enabled"):Connect(function()
+	if ScreenGui.Enabled then
+		blurIn() -- Blur ON when UI is visible
+	else
+		blurOut() -- Blur OFF when UI is hidden
+	end
+end)
+
+-- Initial state
+if ScreenGui.Enabled then blurIn() end
+ScreenGui.Destroying:Connect(function() blurOut() end)
+
+local EmoteList = {
+    {Name = "Gojo 1", ID = "103040723950430"},
+    {Name = "Gojo 2", ID = "128399543093532"},
+    {Name = "Infinite Void", ID = "101308042660289"},
+    {Name = "Yuji", ID = "113702736944973"},
+    {Name = "Jackpot", ID = "115380777754385"},
+    {Name = "Sukuna", ID = "130095116338584"},
+    {Name = "Fuga", ID = "109384273099270"},
+    {Name = "Toji", ID = "102517470211899"},
+    {Name = "Aizen", ID = "83446456221231"},
+    {Name = "Madara", ID = "76401820925164"},
+    {Name = "Mahoraga Summoning", ID = "119654694437491"},
+    {Name = "Guts", ID = "114335623771598"},
+    {Name = "Ichigo", ID = "111696763259806"},
+    {Name = "Zoro Purgatory Aura", ID = "113809400963232"},
+    {Name = "Luffy", ID = "98255257740330"}
+}
+
+local Main = Instance.new("CanvasGroup")
+Main.Size = UDim2.new(0, 480, 0, 320)
+Main.Position = UDim2.new(0.5, -240, 0.5, -160)
+Main.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Main.BackgroundTransparency = 0.4
+Main.BorderSizePixel = 0
+Main.Parent = ScreenGui
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 10)
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 60); Title.Position = UDim2.new(0, 0, 0, 5)
+Title.Text = "GHXST RIFT +"; Title.Font = Enum.Font.GothamBlack; Title.TextSize = 35; Title.TextColor3 = Color3.new(1, 1, 1); Title.BackgroundTransparency = 1; Title.Parent = Main
+
+local SliderLabel = Instance.new("TextLabel")
+SliderLabel.Size = UDim2.new(0, 150, 0, 20); SliderLabel.Position = UDim2.new(0.05, 0, 0, 70); SliderLabel.Text = "Height: 0.0"; SliderLabel.Font = Enum.Font.GothamBold; SliderLabel.TextColor3 = Color3.new(1,1,1); SliderLabel.BackgroundTransparency = 1; SliderLabel.Parent = Main
+
+local StopBtn = Instance.new("TextButton")
+StopBtn.Size = UDim2.new(0, 80, 0, 25); StopBtn.Position = UDim2.new(0.78, 0, 0, 67); StopBtn.BackgroundColor3 = Color3.fromRGB(60, 10, 10); StopBtn.Text = "STOP ALL"; StopBtn.Font = Enum.Font.GothamBlack; StopBtn.TextColor3 = Color3.fromRGB(255, 100, 100); StopBtn.TextSize = 12; StopBtn.Parent = Main
+Instance.new("UICorner", StopBtn).CornerRadius = UDim.new(0, 4)
+
+local SliderBack = Instance.new("Frame")
+SliderBack.Size = UDim2.new(0.9, 0, 0, 6); SliderBack.Position = UDim2.new(0.05, 0, 0, 100); SliderBack.BackgroundColor3 = Color3.fromRGB(30, 30, 30); SliderBack.Parent = Main
+Instance.new("UICorner", SliderBack)
+
+local SliderFill = Instance.new("Frame")
+SliderFill.Size = UDim2.new(0, 0, 1, 0); SliderFill.BackgroundColor3 = Color3.new(1, 1, 1); SliderFill.Parent = SliderBack
+Instance.new("UICorner", SliderFill)
+
+local Knob = Instance.new("Frame")
+Knob.Size = UDim2.new(0, 16, 0, 16); Knob.AnchorPoint = Vector2.new(0.5, 0.5); Knob.Position = UDim2.new(0, 0, 0.5, 0); Knob.BackgroundColor3 = Color3.new(1, 1, 1); Knob.Parent = SliderBack
+Instance.new("UICorner", Knob)
+
+local Container = Instance.new("ScrollingFrame")
+Container.Size = UDim2.new(0.9, 0, 0.55, 0); Container.Position = UDim2.new(0.05, 0, 0, 125); Container.BackgroundTransparency = 1; Container.ScrollBarThickness = 2; Container.Parent = Main
+local Layout = Instance.new("UIGridLayout", Container); Layout.CellSize = UDim2.new(0, 138, 0, 45); Layout.CellPadding = UDim2.new(0, 8, 0, 8)
+
+-- Smooth Dragging
+local dragging, dragStart, startPos
+Title.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true; dragStart = input.Position; startPos = Main.Position
+        input.Changed:Connect(function() if input.UserInputState == Enum.UserInputState.End then dragging = false end end)
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        local targetPos = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        TweenService:Create(Main, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = targetPos}):Play()
+    end
+end)
+local sliding = false
+Knob.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then sliding = true end end)
+UserInputService.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then sliding = false end end)
+UserInputService.InputChanged:Connect(function(i)
+    if sliding and i.UserInputType == Enum.UserInputType.MouseMovement then
+        local p = math.clamp((i.Position.X - SliderBack.AbsolutePosition.X) / SliderBack.AbsoluteSize.X, 0, 1)
+        SliderFill.Size = UDim2.new(p, 0, 1, 0); Knob.Position = UDim2.new(p, 0, 0.5, 0)
+        local val = p * 50; SliderLabel.Text = string.format("Height: %.1f", val)
+        local h = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+        if h then h.HipHeight = val end
+    end
+end)
+
+-- Play Logic
+local currentProcess = 0
+local function playAnim(name, id)
+    local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+    if not hum then return end
+    local animator = hum:FindFirstChildOfClass("Animator") or Instance.new("Animator", hum)
+    for _, track in pairs(animator:GetPlayingAnimationTracks()) do track:Stop() end
+    local success, obj = pcall(function() return game:GetObjects("rbxassetid://" .. id)[1] end)
+    if success and obj then
+        local track = animator:LoadAnimation(obj); track:Play()
+        currentProcess = currentProcess + 1
+        local myProcess = currentProcess
+        task.spawn(function()
+            local ch = TextChatService.TextChannels.RBXGeneral
+            local lines = {}
+            if name == "Gojo 1" then lines = {"Sorry, Amanai.", "I'm not even angry over you right now.", "I bear no grudge against anyone.", "It's just that… the world feels so, so wonderful right now.", "Throughout heaven and earth, I alone am the honored one."}
+            elseif name == "Gojo 2" then lines = {"Throughout heaven and earth, I alone am the honored one."}
+            elseif name == "Infinite Void" then lines = {"Ryōiki Tenkai: Muryōkūsho"}
+            elseif name == "Yuji" then lines = {"I still don’t know what it means to die naturally…", "until I do, and until I can kill that thing…", "I won’t lose to anything."}
+            elseif name == "Jackpot" then lines = {"I JUST HIT THE JACKPOTTTTT!!!!!!!!"}
+            elseif name == "Sukuna" then lines = {"A system that isn't based purely on strength is boring if you ask me.", "When I make this kid's body mine...", "you'll be the first one I kill."}
+            elseif name == "Fuga" then lines = {"Open.", "■."}
+            elseif name == "Toji" then lines = {"Blessings to the boy who has everything...", "and nothing at all."}
+            elseif name == "Aizen" then lines = {"Admiration is the furthest thing from understanding."}
+            elseif name == "Madara" then lines = {"This world is no longer worth surviving in.", "...Hmph."}
+            elseif name == "Mahoraga Summoning" then lines = {"With this treasure, I summon", "Eight-Handled Sword Divergent Sila Divine General Mahoraga"}
+            elseif name == "Guts" then lines = {"*Heavy breathing*", "I'm just a man struggling against the current."}
+            elseif name == "Ichigo" then lines = {"If fate is a millstone...", "we are the grist."}
+            elseif name == "Zoro Purgatory Aura" then lines = {"Beyond the Nine Mountains and Eight Seas...", "There is nothing I cannot cut."}
+            elseif name == "Luffy" then lines = {"I'm gonna be King of the Pirates!"} end
+            for _, txt in ipairs(lines) do if myProcess ~= currentProcess then break end ch:SendAsync(txt) task.wait(2.2) end
+        end)
+    end
+end
+
+StopBtn.MouseButton1Click:Connect(function()
+    currentProcess = currentProcess + 1
+    local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+    if hum then local a = hum:FindFirstChildOfClass("Animator") if a then for _, t in pairs(a:GetPlayingAnimationTracks()) do t:Stop() end end end
+end)
+
+for _, data in pairs(EmoteList) do
+    local b = Instance.new("TextButton"); b.BackgroundColor3 = Color3.fromRGB(30, 30, 35); b.BackgroundTransparency = 0.2; b.Text = data.Name:upper(); b.Font = Enum.Font.GothamBold; b.TextColor3 = Color3.new(1,1,1); b.TextSize = 10; b.Parent = Container; Instance.new("UICorner", b)
+    b.MouseButton1Click:Connect(function() playAnim(data.Name, data.ID) end)
+end
+print("Keybind for your rift is C and keybind for your Ghxst V7.1 is leftctrl, kinda confusing but dw")
